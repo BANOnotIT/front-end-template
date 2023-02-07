@@ -1,7 +1,9 @@
 import { getContract, GetContractResult, Provider, Signer } from "@wagmi/core";
 import { AbiParametersToPrimitiveTypes, ExtractAbiFunction } from "abitype";
 
-import { ABI } from "./abis";
+import { MEOW_ADDRESS } from "~/entity/meow/config";
+
+import { ABI } from "./abi";
 
 type AbiMeow = AbiParametersToPrimitiveTypes<
   ExtractAbiFunction<typeof ABI, "getAllMeows">["outputs"]
@@ -20,7 +22,7 @@ export class MeowsService {
   constructor(provider: Provider | Signer) {
     this.contract = getContract({
       abi: ABI,
-      address: "0xd054e5724d7D595B72AbbB0C460e0221cD859C8f",
+      address: MEOW_ADDRESS,
       signerOrProvider: provider,
     });
   }
