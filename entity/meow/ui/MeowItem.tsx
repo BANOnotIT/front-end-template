@@ -1,4 +1,10 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 import { useEnsAvatar, useEnsName } from "wagmi";
 
 import { Meow } from "~/shared/meows";
@@ -16,21 +22,16 @@ export const MeowItem = ({ meow }: Props) => {
   });
 
   return (
-    <Box component="article" display="flex" gap={1}>
-      <Avatar src={ensUrl ?? undefined} />
-      <Box display="flex" flexDirection="column" flex={1}>
-        <Typography fontWeight="bold">
-          {name ?? shortenAddress(meow.author)}
-        </Typography>
-        <Typography>{meow.message}</Typography>
-        <Typography
-          variant="subtitle2"
-          component="time"
-          sx={{ textAlign: "right" }}
-        >
-          {meow.timestamp.toLocaleString("en-US")}
-        </Typography>
-      </Box>
-    </Box>
+    <Card component="article">
+      <CardHeader
+        avatar={<Avatar src={ensUrl ?? undefined} />}
+        title={name ?? shortenAddress(meow.author)}
+        subheader={meow.timestamp.toLocaleString("en-US")}
+        subheaderTypographyProps={{ component: "time" }}
+      />
+      <CardContent>
+        <Typography variant="body1">{meow.message}</Typography>
+      </CardContent>
+    </Card>
   );
 };
