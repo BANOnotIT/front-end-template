@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useMemo } from "react";
-import { useProvider } from "wagmi";
+import { useProvider, useSigner } from "wagmi";
 
 import { MeowCreate } from "~/feature/meow-create";
 import { MeowList } from "~/feature/meow-list";
@@ -10,6 +10,8 @@ import { MeowsService } from "~/shared/meows";
 import { DFAULT_CHAIN_ID, provider } from "~/shared/wagmi";
 
 import styles from "../styles/Home.module.css";
+
+const VALIDATION_TIME_MS = 20_000;
 
 export async function getStaticProps() {
   const service = new MeowsService(provider({ chainId: DFAULT_CHAIN_ID }));
@@ -20,7 +22,7 @@ export async function getStaticProps() {
     props: {
       meows: service.distillate(),
     },
-    revalidate: 10, // In seconds
+    revalidate: Math.round(VALIDATION_TIME_MS / 1000), // In seconds
   };
 }
 
@@ -28,13 +30,18 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   meows,
 }) => {
   const provider = useProvider();
+  const { data: signer } = useSigner();
   const service = useMemo(
-    () => MeowsService.hydrate(provider, meows),
-    [meows, provider]
+    () => MeowsService.hydrate(signer ?? provider, meows),
+    [meows, provider, signer]
   );
 
   useEffect(() => {
-    const interval = setInterval(() => service.fetchMeows(), 10_000);
+    void service.fetchMeows();
+    const interval = setInterval(
+      () => service.fetchMeows(),
+      VALIDATION_TIME_MS
+    );
     return () => clearInterval(interval);
   }, [service]);
 

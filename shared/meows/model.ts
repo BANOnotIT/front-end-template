@@ -1,4 +1,4 @@
-import { getContract, GetContractResult, Provider } from "@wagmi/core";
+import { getContract, GetContractResult, Provider, Signer } from "@wagmi/core";
 import { AbiParametersToPrimitiveTypes, ExtractAbiFunction } from "abitype";
 import { BigNumber } from "ethers";
 
@@ -23,7 +23,7 @@ export class MeowsService {
   ];
   private contract: GetContractResult<typeof ABI>;
 
-  constructor(provider: Provider) {
+  constructor(provider: Provider | Signer) {
     this.contract = getContract({
       abi: ABI,
       address: "0xd054e5724d7D595B72AbbB0C460e0221cD859C8f",
@@ -31,7 +31,7 @@ export class MeowsService {
     });
   }
 
-  static hydrate(provider: Provider, meows: JsonMeow[]) {
+  static hydrate(provider: Provider | Signer, meows: JsonMeow[]) {
     const instance = new MeowsService(provider);
 
     instance.setCache(
