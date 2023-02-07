@@ -1,26 +1,20 @@
 import { getContract, GetContractResult, Provider, Signer } from "@wagmi/core";
 import { AbiParametersToPrimitiveTypes, ExtractAbiFunction } from "abitype";
-import { BigNumber } from "ethers";
 
 import { ABI } from "./abis";
 
-export type Meow = AbiParametersToPrimitiveTypes<
+type AbiMeow = AbiParametersToPrimitiveTypes<
   ExtractAbiFunction<typeof ABI, "getAllMeows">["outputs"]
 >[0][0];
+export type Meow = Omit<AbiMeow, "timestamp"> & { timestamp: Date };
 
 type JsonMeow = Omit<Meow, "timestamp"> & {
-  timestamp: string;
+  timestamp: number;
 };
 
 export class MeowsService {
   private listeners: Array<() => void> = [];
-  private meowsCache: Meow[] = [
-    {
-      author: "0x0",
-      message: "asdfasdfasdf",
-      timestamp: BigNumber.from(0),
-    },
-  ];
+  private meowsCache: Meow[] = [];
   private contract: GetContractResult<typeof ABI>;
 
   constructor(provider: Provider | Signer) {
@@ -35,7 +29,7 @@ export class MeowsService {
     const instance = new MeowsService(provider);
 
     instance.setCache(
-      meows.map((a) => ({ ...a, timestamp: BigNumber.from(a.timestamp) }))
+      meows.map((a) => ({ ...a, timestamp: new Date(a.timestamp * 1000) }))
     );
 
     return instance;
@@ -44,7 +38,13 @@ export class MeowsService {
   async fetchMeows() {
     return this.contract
       .getAllMeows()
-      .then((meows) => (this.meowsCache = meows.slice()))
+      .then(
+        (meows) =>
+          (this.meowsCache = meows.map((a) => ({
+            ...a,
+            timestamp: new Date(a.timestamp.toNumber() * 1000),
+          })))
+      )
       .then(() => this.notifyChange());
   }
 
@@ -59,7 +59,7 @@ export class MeowsService {
     return this.meowsCache.map((a) => ({
       author: a.author,
       message: a.message,
-      timestamp: String(a.timestamp),
+      timestamp: Number(a.timestamp),
     }));
   }
 
