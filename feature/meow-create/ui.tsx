@@ -1,11 +1,20 @@
 import { TextareaAutosize } from "@mui/base";
-import { Box, Button, Typography } from "@mui/material";
-import { SyntheticEvent, useCallback, useState } from "react";
+import {
+  Button,
+  FilledInput,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Paper,
+} from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
+import { SyntheticEvent, useCallback, useId, useState } from "react";
 import { useAccount } from "wagmi";
 
 import { MeowsService } from "~/shared/meows";
 
 export const MeowCreate = ({ service }: { service: MeowsService }) => {
+  const id = useId();
   const { isDisconnected } = useAccount();
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -34,17 +43,39 @@ export const MeowCreate = ({ service }: { service: MeowsService }) => {
   if (isDisconnected) return null;
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
-      <TextareaAutosize
-        style={{ width: "30ch" }}
-        value={value}
+    <Paper
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+        background: deepPurple[900],
+      }}
+    >
+      <FormControl error={Boolean(error)} variant="filled">
+        <InputLabel htmlFor={id}>Your meow</InputLabel>
+        <FilledInput
+          inputComponent={TextareaAutosize}
+          id={id}
+          style={{ width: "100%", border: "none" }}
+          value={value}
+          disabled={submitting}
+          onChange={(a) => setValue(a.currentTarget.value)}
+        />
+
+        {error && <FormHelperText>{String(error)}</FormHelperText>}
+      </FormControl>
+
+      <Button
+        variant="contained"
         disabled={submitting}
-        onChange={(a) => setValue(a.currentTarget.value)}
-      />
-      {error && <Typography color="error">{String(error)}</Typography>}
-      <Button variant="contained" type="submit">
-        Meow!
+        type="submit"
+        sx={{ alignSelf: "flex-end" }}
+      >
+        {submitting ? "Meowing..." : "Meow!"}
       </Button>
-    </Box>
+    </Paper>
   );
 };
