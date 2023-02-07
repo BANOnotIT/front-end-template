@@ -1,31 +1,12 @@
 # Fuji frontend assignement
 
-**Introduction**
-
-The goal is to check your skills on building a Dapp (decentralized application, aka an application that uses blockchain as backend).
-
-You can fork this repository which contains all the dependencies you'll need: [React](https://reactjs.org/) & [Next.js](https://nextjs.org/), [Material UI](https://mui.com/material-ui/getting-started/overview/), [RainbowKit](https://rainbowkit.com) and [ethers.js](https://docs.ethers.io/v5/).
-
-**Assignment**
-
-We created a contract [0xd054e5724d7d595b72abbb0c460e0221cd859c8f](https://goerli.etherscan.io/address/0xd054e5724d7d595b72abbb0c460e0221cd859c8f) on Goerly testnet, and we need a Dapp to interact with it.
-
-Please build an app that:
-
-- Contains a form which on submit calls `sayMew()` on our contract
-- Displays all the `mews` returned by `getAllMeows()`
-- Uses Material UI
-
-💡 You can go with a 2-pages or single page architecture, the choice is yours. Same goes for naming, folders, and so on...
-
-💡 You can take inspiration from [this assignment](http://messages-status-assignment.surge.sh/), transforming `messages` into `meows` and `username` into `address`.
-
-**Skills tested**
-
-- [ ] Connect a wallet
-- [ ] Read a contract
-- [ ] Write on a contract
-- [ ] React & NextJS
-- [ ] Material UI
-
-Bonus: display user ENS
+Comments:
+1. `useEnsName` and `useEnsAvatar` doesn't work somehow. Had no time to debug this so skipped this bonus thing.
+2. Right now I can't implement Optimistic UX for meows sending because none of this provided:
+   - ethers.js resolves when transaction was committed but not saved by chain
+   - Contract doesn't provide any event on send
+   - No idempotency key is used in contract
+3. It [doesn't look](https://front-end-template-gamma.vercel.app/) as cool as [original assignment](http://messages-status-assignment.surge.sh/) since I'm not good at color picking.
+4. For folders I used [Feature Sliced Design](https://feature-sliced.design/) pattern
+5. I used only one Service class with internal cache since DDD here is overkill, but it'll be more idiomatic to use Presenter class that implement caching and dedicated Service class to listen to contract events (that are not present right now)
+6. For commit messages I used [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 
