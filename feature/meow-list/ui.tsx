@@ -15,7 +15,7 @@ export const MeowList = ({ service }: Props) => {
   );
 
   return (
-    <Box width="60ch">
+    <Box display="flex" flexDirection="column" gap={2}>
       {messages
         .slice()
         .reverse()

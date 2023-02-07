@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
@@ -8,8 +9,6 @@ import { MeowCreate } from "~/feature/meow-create";
 import { MeowList } from "~/feature/meow-list";
 import { MeowsService } from "~/shared/meows";
 import { DFAULT_CHAIN_ID, provider } from "~/shared/wagmi";
-
-import styles from "../styles/Home.module.css";
 
 const VALIDATION_TIME_MS = 20_000;
 
@@ -46,25 +45,22 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   }, [service]);
 
   return (
-    <div className={styles.container}>
+    <Box p={2} display="flex" justifyContent="center">
       <Head>
         <title>Meow App</title>
       </Head>
 
-      <main className={styles.main}>
+      <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
         <ConnectButton />
+        <Box width="60ch">
+          <MeowCreate service={service} />
+        </Box>
 
-        <MeowCreate service={service} />
-
-        <MeowList service={service} />
-      </main>
-
-      <footer className={styles.footer}>
-        <a href="https://rainbow.me" target="_blank" rel="noopener noreferrer">
-          Made with ❤️ by your frens at 🌈
-        </a>
-      </footer>
-    </div>
+        <Box width="60ch">
+          <MeowList service={service} />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
