@@ -15,7 +15,7 @@ import { MeowsService } from "~/shared/meows";
 
 export const MeowCreate = ({ service }: { service: MeowsService }) => {
   const id = useId();
-  const { isDisconnected } = useAccount();
+  const { isConnected } = useAccount();
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -40,7 +40,7 @@ export const MeowCreate = ({ service }: { service: MeowsService }) => {
     [service, value]
   );
 
-  if (isDisconnected) return null;
+  if (!isConnected) return null;
 
   return (
     <Paper
