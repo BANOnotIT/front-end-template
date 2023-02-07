@@ -11,7 +11,7 @@ import { deepPurple } from "@mui/material/colors";
 import { SyntheticEvent, useCallback, useId, useState } from "react";
 import { useAccount } from "wagmi";
 
-import { MeowsService } from "~/shared/meows";
+import { MeowsService } from "~/entity/meow";
 
 export const MeowCreate = ({ service }: { service: MeowsService }) => {
   const id = useId();

@@ -7,8 +7,9 @@ import {
 } from "@mui/material";
 import { useEnsAvatar, useEnsName } from "wagmi";
 
-import { Meow } from "~/shared/meows";
 import { shortenAddress } from "~/shared/utils";
+
+import { Meow } from "../api";
 
 type Props = {
   meow: Meow;

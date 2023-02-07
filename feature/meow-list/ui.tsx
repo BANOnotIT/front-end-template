@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
 import { useSyncExternalStore } from "react";
 
-import { MeowItem } from "~/entity/meow";
-import { MeowsService } from "~/shared/meows";
+import { MeowItem, MeowsService } from "~/entity/meow";
 
 type Props = {
   service: MeowsService;

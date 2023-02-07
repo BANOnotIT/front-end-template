@@ -5,9 +5,9 @@ import Head from "next/head";
 import { useEffect, useMemo } from "react";
 import { useProvider, useSigner } from "wagmi";
 
+import { MeowsService } from "~/entity/meow";
 import { MeowCreate } from "~/feature/meow-create";
 import { MeowList } from "~/feature/meow-list";
-import { MeowsService } from "~/shared/meows";
 import { DEFAULT_CHAIN_ID, provider } from "~/shared/wagmi";
 
 const VALIDATION_TIME_MS = 20_000;
