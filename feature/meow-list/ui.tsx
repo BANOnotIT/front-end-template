@@ -15,13 +15,16 @@ export const MeowList = ({ service }: Props) => {
   );
 
   return (
-    <Box>
-      {messages.map((message) => (
-        <MeowItem
-          key={`${message.author}|${message.timestamp}`}
-          meow={message}
-        />
-      ))}
+    <Box width="60ch">
+      {messages
+        .slice()
+        .reverse()
+        .map((message) => (
+          <MeowItem
+            key={`${message.author}|${message.timestamp}`}
+            meow={message}
+          />
+        ))}
     </Box>
   );
 };
