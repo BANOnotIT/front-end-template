@@ -8,12 +8,12 @@ import { useProvider, useSigner } from "wagmi";
 import { MeowCreate } from "~/feature/meow-create";
 import { MeowList } from "~/feature/meow-list";
 import { MeowsService } from "~/shared/meows";
-import { DFAULT_CHAIN_ID, provider } from "~/shared/wagmi";
+import { DEFAULT_CHAIN_ID, provider } from "~/shared/wagmi";
 
 const VALIDATION_TIME_MS = 20_000;
 
 export async function getStaticProps() {
-  const service = new MeowsService(provider({ chainId: DFAULT_CHAIN_ID }));
+  const service = new MeowsService(provider({ chainId: DEFAULT_CHAIN_ID }));
 
   await service.fetchMeows();
 

@@ -1,5 +1,3 @@
-import { getContract } from "@wagmi/core";
-
 export const ABI = [
   {
     inputs: [],
@@ -27,8 +25,3 @@ export const ABI = [
     type: "function",
   },
 ] as const;
-
-export const contract = getContract({
-  address: "0xd054e5724d7D595B72AbbB0C460e0221cD859C8f",
-  abi: ABI,
-});

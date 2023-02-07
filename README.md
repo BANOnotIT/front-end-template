@@ -1,7 +1,7 @@
-# Fuji frontend assignement
+# Fuji frontend assignment
 
 Comments:
-1. `useEnsName` and `useEnsAvatar` doesn't work somehow. Had no time to debug this so skipped this bonus thing.
+1. `useEnsName` and `useEnsAvatar` don't work somehow. Had no time to debug this so skipped this bonus thing.
 2. Right now I can't implement Optimistic UX for meows sending because none of this provided:
    - ethers.js resolves when transaction was committed but not saved by chain
    - Contract doesn't provide any event on send
